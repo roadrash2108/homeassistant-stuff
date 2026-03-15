@@ -100,7 +100,7 @@ variables:
   skip_during_night_hours: !input skip_during_night_hours
   power_bar_value: 50
   payload: '{"icon":"{{ power_level_icon }}", "text": "{{ power_level_text }}",  "color":
-    "{{ power_level_color }}", "progress":"{{ power_bar_value }}", "progressC":"{{ power_level_color }}"}'
+    "{{ power_level_color }}", "bar":"{{ power_bar_value }}", "barColor":"{{ power_level_color }}"}'
   night_start: !input night_starts_after_time
   night_end: !input night_ends_after_time
 trigger:
