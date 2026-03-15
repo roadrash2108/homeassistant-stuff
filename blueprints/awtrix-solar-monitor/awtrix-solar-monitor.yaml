@@ -33,11 +33,11 @@ blueprint:
       selector:
         number:
           min: 0.0
-          max: 100000.0
+          max: 10000.0
           unit_of_measurement: Watt
           mode: slider
           step: 1.0
-      default: 400
+      default: 4010
     threshold_low:
       name: Threshold for low solar production (W)
       description: The threshold below which the energy production of your solar system
@@ -45,11 +45,28 @@ blueprint:
       selector:
         number:
           min: 0.0
-          max: 100000.0
+          max: 10000.0
           unit_of_measurement: Watt
           mode: slider
           step: 1.0
       default: 100
+    show_power_bar:
+      name: Show progress bar for percentage of maximum solar production
+      description: .
+      selector:
+        boolean: {}
+      default: true
+    threshold_power_bar_high:
+      name: Maximum solar production
+      description: The value at which the progress bar should be at 100% (e.g. the maximum Wp of your solar system). Input in Watts (W).
+      selector:
+        number:
+          min: 0.0
+          max: 10000.0
+          unit_of_measurement: Watt
+          mode: slider
+          step: 1.0
+      default: 800
     skip_if_zero_watts:
       name: Hide solar production if at 0 Watts
       description: This will not show the solar energy production on your awtrix if
@@ -99,8 +116,9 @@ variables:
   skip_if_zero_watts: !input skip_if_zero_watts
   skip_during_night_hours: !input skip_during_night_hours
   power_bar_value: 50
+  progress_payload: ', "progress":"{{ power_bar_value }}", "progressC":"{{ power_level_color }}'
   payload: '{"icon":"{{ power_level_icon }}", "text": "{{ power_level_text }}",  "color":
-    "{{ power_level_color }}", "progress":"{{ power_bar_value }}", "progressC":"{{ power_level_color }}"}'
+    "{{ power_level_color }}" {{ progress_payload }} }'
   night_start: !input night_starts_after_time
   night_end: !input night_ends_after_time
 trigger:
