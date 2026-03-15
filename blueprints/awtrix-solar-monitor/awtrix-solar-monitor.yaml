@@ -115,10 +115,12 @@ variables:
     / 1000) | round(1)}} kW{%- else %}{{power_level | round(0)}} W{%- endif %}'
   skip_if_zero_watts: !input skip_if_zero_watts
   skip_during_night_hours: !input skip_during_night_hours
-  power_bar_value: 50
+  power_bar_show: !show_power_bar
+  power_bar_value: '!threshold_power_bar_high /2 | int(0) | abs'
+  power_bar_max: !threshold_power_bar_high
   progress_payload: ', "progress":"{{ power_bar_value }}", "progressC":"{{ power_level_color }}'
   payload: '{"icon":"{{ power_level_icon }}", "text": "{{ power_level_text }}",  "color":
-    "{{ power_level_color }}" {{ progress_payload }} }'
+    "{{ power_level_color }}" {%- if power_bar_show }{{ progress_payload }}{%- endif %} }'
   night_start: !input night_starts_after_time
   night_end: !input night_ends_after_time
 trigger:
